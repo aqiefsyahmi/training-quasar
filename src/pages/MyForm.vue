@@ -39,10 +39,16 @@
         <div class="col-6 q-px-sm">
           <q-radio v-model="input.shape" val="line" label="Line" />
         </div>
+        <div class="col-6 q-py-sm">
+          <q-file outlined dense label="attachment" v-model="input.myfile">
+            <template v-slot:prepend>
+              <q-icon name="attach_file" />
+            </template>
+          </q-file>
+        </div>
       </div>
       <q-btn label="Submit" color="primary" type="submit" class="q-mt-lg" />
     </q-form>
-    {{ input.name }}
 
     <div>
       <q-btn label="get data" color="warning" @click="getData" />
@@ -54,13 +60,20 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useMyDataStore } from "src/stores/mydata.js";
 export default {
   name: "MyForm",
   setup() {
-    let input = ref({});
+    // let input = ref({});
     let pilihan = ref(["pilihan 1", "pilihan 1", "pilihan 1"]);
     let output = ref(null);
+    const mydata = useMyDataStore();
+
+    var input = computed(() => {
+      return mydata.showdata;
+    });
+
     function submitForm() {
       if (input.value.model == null) {
         console.log("kne pilih"); //alert untuk pilihan
@@ -68,7 +81,13 @@ export default {
 
       //after validation
       let formData = new FormData();
-      formData.append("");
+      formData.append("name", input.value.name);
+      formData.append("ic", input.value.ic);
+      formData.append("model", input.value.model);
+      formData.append("shape", input.value.shape);
+      formData.append("attachment", input.value.myfile);
+
+      console.log(formData.get("attachment"));
     }
     async function getData() {
       var req = await fetch(
