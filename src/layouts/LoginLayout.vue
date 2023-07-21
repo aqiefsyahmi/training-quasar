@@ -42,7 +42,11 @@
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-drawer v-model="leftDrawerOpen" side="left" bordered :class="myclass">
       <q-list bordered class="rounded-borders">
-        <q-expansion-item expand-separator icon="mail" label="Dashboard">
+        <q-expansion-item
+          expand-separator
+          icon="fa-solid fa-ambulance"
+          label="Dashboard"
+        >
           <q-item clickable v-ripple to="/admin">
             <!-- <q-item clickable v-ripple @click="gotopage"> -->
             <q-item-section style="padding-left: 20%" avatar>

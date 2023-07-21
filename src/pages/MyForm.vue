@@ -74,7 +74,7 @@ export default {
       return mydata.showdata;
     });
 
-    function submitForm() {
+    async function submitForm() {
       if (input.value.model == null) {
         console.log("kne pilih"); //alert untuk pilihan
       }
@@ -87,13 +87,17 @@ export default {
       formData.append("shape", input.value.shape);
       formData.append("attachment", input.value.myfile);
 
-      console.log(formData.get("attachment"));
+      var req = await fetch("http://localhost/training-ci/public/createdata", {
+        method: "POST",
+        body: formData,
+      });
+
+      var res = await req.json();
+      console.log(res);
     }
     async function getData() {
-      var req = await fetch(
-        "https://restcountries.com/v3.1/independent?status=true"
-      );
-      var res = await req.json();
+      var req = await fetch("http://localhost/training-ci/public/showdata");
+      var res = await req.text();
       output.value = res;
       console.log(res);
     }
